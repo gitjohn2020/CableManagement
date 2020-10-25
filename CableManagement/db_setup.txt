@@ -1,0 +1,67 @@
+CREATE SCHEMA `cable_management` ;
+
+CREATE TABLE `cable_management`.`channels` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `channel_name` VARCHAR(100) NULL,
+  `channel_type` VARCHAR(45) NULL,
+  `channel_language` VARCHAR(45) NULL,
+  `channel_price` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+  
+  
+CREATE TABLE `cable_management`.`subscribers` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(100) NULL,
+  `last_name` VARCHAR(100) NULL,
+  `email` VARCHAR(100) NULL,
+  `password` VARCHAR(45) NULL,
+  `activated_on` DATETIME NULL,
+  `deactivated_on` DATETIME NULL,
+  `is_active` INT NULL,
+  `user_type` VARCHAR(20) NULL,
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `subscription_plans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plan_name` varchar(100) DEFAULT NULL,
+  `plan_type` varchar(45) DEFAULT NULL,
+  `plan_price` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `cable_management`.`subscription_detail` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NULL,
+  `channel_id` INT NULL,
+  `plan_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user_id_fkey_idx` (`user_id` ASC) VISIBLE,
+  INDEX `channel_id_fkey_idx` (`channel_id` ASC) VISIBLE,
+  INDEX `plan_id_fkey_idx` (`plan_id` ASC) VISIBLE,
+  CONSTRAINT `user_id_fkey`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cable_management`.`subscribers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `channel_id_fkey`
+    FOREIGN KEY (`channel_id`)
+    REFERENCES `cable_management`.`channels` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `plan_id_fkey`
+    FOREIGN KEY (`plan_id`)
+    REFERENCES `cable_management`.`subscription_plans` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+    
+    CREATE TABLE `cable_management`.`admin_users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `password` VARCHAR(45) NULL,
+  `is_active` INT NULL,
+  PRIMARY KEY (`id`));
+    
+
+  
+  
